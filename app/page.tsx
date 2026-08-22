@@ -1,135 +1,119 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { ShieldCheck, CircleCheckBig } from 'lucide-react';
-import { useSession } from 'next-auth/react';
-import AuthGate from '@/components/AuthGate';
-import BeforeAfterInspector from '@/components/BeforeAfterInspector';
-import RoomLedger from '@/components/RoomLedger';
-import ChurnTelemetry from '@/components/ChurnTelemetry';
+import { useState } from 'react';
+import {
+  Navigation,
+  NavTab,
+} from '@/components/Navigation';
+import { LandingHero } from '@/components/LandingHero';
+import { InspectionWorkflow } from '@/components/InspectionWorkflow';
+import { InspectionHistoryView } from '@/components/InspectionHistoryView';
+import { DepositReportView } from '@/components/DepositReportView';
+import { ListingGeneratorView } from '@/components/ListingGeneratorView';
+import { AdminChurnDashboard } from '@/components/AdminChurnDashboard';
+import { AuthGate } from '@/components/AuthGate';
+import { ShieldCheck, ArrowUpRight, ExternalLink } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-function CountUp({ to, prefix = '', suffix = '', duration = 1400 }: { to: number; prefix?: string; suffix?: string; duration?: number }) {
-  const [value, setValue] = useState(0);
-  const started = useRef(false);
+export default function RentGuardMasterPage() {
+  const [activeTab, setActiveTab] = useState<NavTab>('dashboard');
+  const [persona, setPersona] = useState<'tenant' | 'manager'>('tenant');
+  const [authenticated, setAuthenticated] = useState<boolean>(true);
+  const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (started.current) return;
-    started.current = true;
-    const start = performance.now();
-    function tick(now: number) {
-      const progress = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.round(to * eased));
-      if (progress < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }, [to, duration]);
+  // User Profile
+  const userName = persona === 'tenant' ? 'Aditi Sharma' : 'Property Admin';
+  const userEmail =
+    persona === 'tenant'
+      ? 'aditi.sharma@rentguard.ai'
+      : 'admin@rentguard.ai';
 
-  return (
-    <span>
-      {prefix}
-      {value.toLocaleString('en-IN')}
-      {suffix}
-    </span>
-  );
-}
-
-export default function DashboardPage() {
-  const [authenticated, setAuthenticated] = useState(false);
-  const { data: session } = useSession();
-  const hasAccess = authenticated || Boolean(session?.user);
+  const handleTogglePersona = () => {
+    setPersona((p) => (p === 'tenant' ? 'manager' : 'tenant'));
+  };
 
   return (
-    <main className="min-h-screen relative">
+    <div className="min-h-screen bg-[var(--rg-bg)] text-[var(--rg-ink)] relative selection:bg-[var(--rg-brass)] selection:text-black flex flex-col justify-between">
+      {/* ── Ambient Vignette Background ── */}
       <div className="rg-vignette" />
 
-      {!hasAccess && <AuthGate onAuthenticated={() => setAuthenticated(true)} />}
+      {/* ── Auth Gate Modal Overlay ── */}
+      {(showAuthModal || !authenticated) && (
+        <AuthGate
+          onAuthenticated={() => {
+            setAuthenticated(true);
+            setShowAuthModal(false);
+          }}
+          onClose={() => setShowAuthModal(false)}
+        />
+      )}
 
-      <div className={hasAccess ? 'relative z-[1]' : 'relative z-[1] pointer-events-none blur-sm select-none'}>
-        {/* Top bar */}
-        <header className="border-b border-[var(--rg-line-strong)] px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
-            <ShieldCheck size={20} className="text-[var(--rg-brass)]" />
-            <span className="rg-display text-lg">RentGuard AI</span>
-          </div>
-          <span className="rg-mono text-[10px] text-[var(--rg-ink-dim)] text-right">
-            DEMO CASE · RG-26-0417 · CHANDIGARH
-          </span>
-        </header>
+      <div className={cn('relative z-10 flex-1 flex flex-col', !authenticated && 'blur-sm pointer-events-none select-none')}>
+        {/* ── Top Header & Tab Navigation ── */}
+        <Navigation
+          activeTab={activeTab}
+          onSelectTab={(tab) => {
+            setActiveTab(tab);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          persona={persona}
+          onTogglePersona={handleTogglePersona}
+          userName={userName}
+          userEmail={userEmail}
+          onOpenAuthModal={() => setShowAuthModal(true)}
+        />
 
-        {/* Hero */}
-        <section className="px-4 sm:px-6 py-10 sm:py-12 border-b border-[var(--rg-line)] relative overflow-hidden">
-          <div className="max-w-5xl relative">
-            <span className="rg-mono text-[11px] text-[var(--rg-ink-dim)] rg-animate-in">
-              MOVE-OUT INSPECTION DOSSIER · SAMPLE DATA
-            </span>
+        {/* ── Main Tab Content Viewport ── */}
+        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          {activeTab === 'dashboard' && <LandingHero onNavigate={(tab) => setActiveTab(tab)} />}
 
-            <div className="flex items-start gap-5">
-              <h1 className="rg-display text-4xl sm:text-6xl mt-2 leading-[1.02] rg-animate-in rg-delay-1">
-                Every scuff, dated.<br />Every rupee, accounted for.
-              </h1>
+          {activeTab === 'new_inspection' && <InspectionWorkflow />}
 
-              {/* Signature moment: forensic stamp */}
-              <div className="hidden sm:flex shrink-0 mt-3 items-center justify-center w-24 h-24 rounded-full border-[3px] border-[var(--rg-rust)] text-[var(--rg-rust)] rg-mono text-[11px] tracking-widest text-center leading-tight -rotate-[8deg] shadow-[0_0_0_3px_var(--rg-bg)]">
-                VERIFIED<br />BY AI
+          {activeTab === 'history' && <InspectionHistoryView />}
+
+          {activeTab === 'deposit_report' && <DepositReportView />}
+
+          {activeTab === 'listing' && <ListingGeneratorView />}
+
+          {activeTab === 'admin' && (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              <div className="border-b border-[var(--rg-line)] pb-4">
+                <span className="rg-mono text-[11px] px-2.5 py-1 border border-[var(--rg-rust-dim)] text-[var(--rg-rust)] bg-[rgba(193,85,61,0.12)] rounded-sm">
+                  ADMIN &amp; ML TELEMETRY
+                </span>
+                <h2 className="rg-display text-2xl sm:text-3xl font-bold text-[var(--rg-ink)] mt-2">
+                  Tenant Retention &amp; ML Churn Analytics
+                </h2>
               </div>
+              <AdminChurnDashboard />
+            </div>
+          )}
+        </main>
+
+        {/* ── Unified Footer ── */}
+        <footer className="border-t border-[var(--rg-line)] bg-[#080a09] py-8 text-xs rg-mono text-[var(--rg-ink-faint)]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-[var(--rg-brass)]" />
+              <span className="font-bold text-[var(--rg-ink-dim)]">RentGuard AI Platform</span>
+              <span>· Certified Room Handover &amp; Deposit Ledger</span>
             </div>
 
-            <p className="text-[var(--rg-ink-dim)] mt-4 max-w-xl text-sm leading-relaxed rg-animate-in rg-delay-2">
-              This demo workspace cross-references move-in and move-out photography against
-              per-room condition baselines, produces a defensible INR valuation,
-              and flags tenants drifting toward churn before the lease does.
-            </p>
-
-            {/* Metrics strip */}
-            <div className="flex flex-wrap gap-x-10 gap-y-4 mt-8 rg-animate-in rg-delay-3">
-              <div>
-                <div className="rg-mono text-2xl text-[var(--rg-brass)]">
-                  <CountUp to={2417000} prefix="₹" />
-                </div>
-                <div className="rg-mono text-[10px] text-[var(--rg-ink-faint)] mt-1">DISPUTES RESOLVED, TO DATE</div>
-              </div>
-              <div>
-                <div className="rg-mono text-2xl text-[var(--rg-teal)]">
-                  <CountUp to={1204} />
-                </div>
-                <div className="rg-mono text-[10px] text-[var(--rg-ink-faint)] mt-1">INSPECTIONS LOGGED</div>
-              </div>
-              <div>
-                <div className="rg-mono text-2xl text-[var(--rg-ink)]">
-                  <CountUp to={94} suffix="%" />
-                </div>
-                <div className="rg-mono text-[10px] text-[var(--rg-ink-faint)] mt-1">AI VALUATION ACCURACY</div>
-              </div>
+            <div className="flex items-center gap-6">
+              <span>Model Tenancy Act Compliant</span>
+              <span>Pan-India Jurisdiction</span>
+              <a
+                href="https://github.com/xniteshkumar19-rgb/rentguard-ai"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[var(--rg-brass)] hover:underline flex items-center gap-1"
+              >
+                GitHub Repo <ExternalLink className="w-3 h-3" />
+              </a>
             </div>
-            <ol aria-label="Inspection workflow" className="mt-8 grid gap-px sm:grid-cols-4 border border-[var(--rg-line-strong)] bg-[var(--rg-line-strong)] max-w-4xl">
-              {[
-                ['01', 'Capture', 'Attach dated evidence'],
-                ['02', 'Compare', 'Review condition delta'],
-                ['03', 'Value', 'Set INR range'],
-                ['04', 'Audit', 'Export case finding'],
-              ].map(([step, title, detail], index) => <li key={title} className="bg-[var(--rg-surface)] px-3 py-3 flex gap-3"><span className="rg-mono text-[10px] text-[var(--rg-brass)]">{step}</span><div><strong className="rg-mono text-[11px] uppercase">{title}</strong><span className="block text-xs text-[var(--rg-ink-faint)] mt-0.5">{detail}</span></div>{index < 3 && <CircleCheckBig className="hidden lg:block ml-auto text-[var(--rg-teal)]" size={15} aria-hidden="true" />}</li>)}
-            </ol>
           </div>
-        </section>
-
-        {/* Modules */}
-        <section className="px-4 sm:px-6 py-10 border-b border-[var(--rg-line)] rg-animate-in">
-          <BeforeAfterInspector />
-        </section>
-
-        <section className="px-4 sm:px-6 py-10 border-b border-[var(--rg-line)] rg-animate-in">
-          <RoomLedger />
-        </section>
-
-        <section className="px-4 sm:px-6 py-10 rg-animate-in">
-          <ChurnTelemetry />
-        </section>
-
-        <footer className="px-4 sm:px-6 py-6 border-t border-[var(--rg-line)] rg-mono text-[10px] text-[var(--rg-ink-faint)] text-center">
-          RENTGUARD AI · DEMONSTRATION WORKSPACE · DOCUMENTARY AID, NOT LEGAL ADVICE
         </footer>
       </div>
-    </main>
+    </div>
   );
 }

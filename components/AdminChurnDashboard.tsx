@@ -494,3 +494,6 @@ export function AdminChurnDashboard() {
     </div>
   );
 }
+
+export default AdminChurnDashboard;
+

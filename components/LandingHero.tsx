@@ -1,214 +1,320 @@
-"use client";
+'use client';
 
-import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from 'react';
 import {
-  Shield,
-  Sparkles,
-  ArrowRight,
+  ShieldCheck,
   Camera,
-  Brain,
-  ArrowLeftRight,
-  Users,
+  GitCompare,
   CheckCircle2,
-  Zap,
-} from "lucide-react";
+  Coins,
+  ArrowRight,
+  Sparkles,
+  Scale,
+  Clock,
+  Building,
+  FileText,
+  AlertTriangle,
+  ChevronRight,
+  TrendingUp,
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { NavTab } from './Navigation';
 
-export function LandingHero() {
-  const [isLoading, setIsLoading] = useState<string | null>(null);
+interface LandingHeroProps {
+  onNavigate: (tab: NavTab) => void;
+}
 
-  const handleGoogleLogin = async () => {
-    setIsLoading("google");
-    await signIn("google", { callbackUrl: "/dashboard" });
-  };
+function CountUp({ to, prefix = '', suffix = '', duration = 1400 }: { to: number; prefix?: string; suffix?: string; duration?: number }) {
+  const [value, setValue] = useState(0);
+  const started = useRef(false);
 
-  const handleDemoLogin = async (role: "tenant" | "manager") => {
-    setIsLoading(role);
-    await signIn("credentials", {
-      role,
-      callbackUrl: "/dashboard",
-    });
-  };
-
-  const features = [
-    {
-      icon: Camera,
-      color: "blue",
-      title: "Damage Audit AI",
-      desc: "GPT-4o vision classifies defects as Wear & Tear vs. Tenant Damage with legal reasoning",
-    },
-    {
-      icon: ArrowLeftRight,
-      color: "purple",
-      title: "Delta Comparison",
-      desc: "Upload Move-In + Move-Out photos. Interactive slider reveals new damages vs pre-existing.",
-    },
-    {
-      icon: Sparkles,
-      color: "emerald",
-      title: "Listing Generator",
-      desc: "Auto-generate Zillow & Facebook Marketplace ready copy from a single room photo.",
-    },
-    {
-      icon: Brain,
-      color: "rose",
-      title: "ML Churn Suite",
-      desc: "XGBoost ML model predicting 30-day account deletions with automated retention interventions.",
-    },
-  ];
+  useEffect(() => {
+    if (started.current) return;
+    started.current = true;
+    const start = performance.now();
+    function tick(now: number) {
+      const progress = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.round(to * eased));
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }, [to, duration]);
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center relative overflow-hidden px-4 py-12">
-      {/* Animated Gradient Mesh Background */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-1/4 left-1/6 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-3xl animate-mesh-float" />
-        <div
-          className="absolute bottom-1/4 right-1/6 w-[400px] h-[400px] bg-purple-600/15 rounded-full blur-3xl animate-mesh-float"
-          style={{ animationDelay: "3s" }}
-        />
-        <div
-          className="absolute top-3/4 left-1/2 w-[300px] h-[300px] bg-emerald-500/10 rounded-full blur-3xl animate-mesh-float"
-          style={{ animationDelay: "6s" }}
-        />
-        {/* Grid overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
-      </div>
+    <span>
+      {prefix}
+      {value.toLocaleString('en-IN')}
+      {suffix}
+    </span>
+  );
+}
 
-      <div className="max-w-4xl w-full space-y-12 animate-fade-in">
-        {/* Top Badge */}
-        <div className="text-center">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 text-indigo-300 tracking-wider uppercase shadow-lg shadow-indigo-500/10">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-            Hackathon 2026 · AI Property Intelligence Suite
-          </span>
-        </div>
+export function LandingHero({ onNavigate }: LandingHeroProps) {
+  return (
+    <div className="space-y-12 py-6">
+      {/* ── Top Hero Section ── */}
+      <section className="relative overflow-hidden rounded-2xl border border-[var(--rg-line-strong)] bg-gradient-to-b from-[var(--rg-surface-raised)]/90 via-[var(--rg-surface)]/80 to-[var(--rg-bg)] p-6 sm:p-10 lg:p-12 shadow-2xl backdrop-blur-xl">
+        {/* Subtle decorative glow */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[radial-gradient(circle_at_center,rgba(201,154,75,0.08)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-[radial-gradient(circle_at_center,rgba(75,156,147,0.06)_0%,transparent_70%)] pointer-events-none" />
 
-        {/* Hero Headline */}
-        <div className="text-center space-y-4">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 flex items-center justify-center shadow-2xl shadow-indigo-500/40 border border-white/20">
-              <Shield className="w-7 h-7 text-white" strokeWidth={2.5} />
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-400 border-2 border-slate-950 flex items-center justify-center">
-                <Zap className="w-2.5 h-2.5 text-slate-900" fill="currentColor" />
-              </div>
-            </div>
+        <div className="relative z-10 max-w-4xl space-y-6">
+          {/* Tagline kicker */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 text-xs rg-mono font-bold uppercase tracking-wider rounded-full border border-[var(--rg-brass-dim)] bg-[rgba(201,154,75,0.1)] text-[var(--rg-brass)] shadow-[0_0_12px_rgba(201,154,75,0.15)]">
+            <Sparkles className="w-3.5 h-3.5 text-[var(--rg-brass)] animate-pulse" />
+            AI-POWERED ROOM HANDOVER &amp; SECURITY DEPOSIT PROTECTION
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-none">
-            RentGuard{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-              AI
-            </span>
-          </h1>
-          <p className="text-lg sm:text-xl font-semibold text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Visual property intelligence platform — damage auditing, before/after comparison, rent listing generation, and predictive ML churn risk.
-          </p>
-        </div>
-
-        {/* Feature Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {features.map(({ icon: Icon, color, title, desc }) => (
-            <div
-              key={title}
-              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-slate-600 backdrop-blur-xl transition-all group"
-            >
-              <div
-                className={`w-8 h-8 rounded-lg flex items-center justify-center mb-3 transition-transform group-hover:scale-110 ${
-                  color === "blue"
-                    ? "bg-blue-500/15 text-blue-400 border border-blue-500/30"
-                    : color === "purple"
-                    ? "bg-purple-500/15 text-purple-400 border border-purple-500/30"
-                    : color === "emerald"
-                    ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
-                    : "bg-rose-500/15 text-rose-400 border border-rose-500/30"
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-              </div>
-              <p className="text-xs font-black text-white mb-1">{title}</p>
-              <p className="text-[11px] text-slate-400 leading-snug">{desc}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Auth Glassmorphic Card */}
-        <div className="max-w-md mx-auto w-full">
-          <div className="p-6 rounded-3xl bg-slate-900/70 border border-slate-700/80 backdrop-blur-2xl shadow-2xl space-y-4">
-            <div className="text-center space-y-1">
-              <h2 className="text-lg font-black text-white">
-                Get Started
-              </h2>
-              <p className="text-xs text-slate-400">
-                Sign in with Google or use a hackathon demo account
+          {/* Main Headline & Rubber Stamp */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <h1 className="rg-display text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-[var(--rg-ink)] leading-[1.02]">
+                Protect your deposit<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--rg-brass)] via-[#e6b866] to-[var(--rg-teal)]">
+                  with visual proof.
+                </span>
+              </h1>
+              <p className="mt-4 text-base sm:text-lg text-[var(--rg-ink-dim)] max-w-2xl leading-relaxed">
+                Photograph your room when you move in. Photograph it again when you move out.
+                RentGuard AI proves what changed, classifies normal wear &amp; tear, and calculates a fair, legally defensible deposit refund.
               </p>
             </div>
 
-            {/* Google Sign In */}
+            {/* Signature Forensic Verified Stamp */}
+            <div className="hidden lg:flex rg-stamp shrink-0 flex-col items-center justify-center w-28 h-28 rounded-full border-[3px] border-[var(--rg-rust)] text-[var(--rg-rust)] rg-mono text-[11px] font-bold tracking-widest text-center leading-tight -rotate-[8deg] bg-[rgba(193,85,61,0.08)] shadow-[0_0_20px_rgba(193,85,61,0.2)] select-none">
+              <span>CASE VERIFIED</span>
+              <span className="text-[9px] font-normal tracking-normal text-[var(--rg-ink-faint)] mt-0.5">MODEL ACT</span>
+              <span className="text-[10px] text-[var(--rg-rust)] font-black mt-0.5">₹ 0 DISPUTE</span>
+            </div>
+          </div>
+
+          {/* Action CTAs */}
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <button
-              onClick={handleGoogleLogin}
-              disabled={isLoading !== null}
-              className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-900 font-bold text-sm transition-all shadow-xl shadow-black/30 border border-white/20 disabled:opacity-60 active:scale-98"
+              onClick={() => onNavigate('new_inspection')}
+              className="rg-pulse flex items-center gap-2.5 px-6 py-3.5 bg-[var(--rg-brass)] hover:bg-[#e6b866] text-[#120d06] font-bold rg-mono text-sm rounded-lg shadow-[0_0_25px_rgba(201,154,75,0.35)] transition-all cursor-pointer transform hover:-translate-y-0.5"
             >
-              {isLoading === "google" ? (
-                <div className="w-5 h-5 border-2 border-slate-400 border-t-slate-800 rounded-full animate-spin" />
-              ) : (
-                <svg viewBox="0 0 24 24" className="w-5 h-5" aria-hidden>
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                </svg>
-              )}
-              Sign in with Google
+              <Camera className="w-4 h-4" />
+              <span>Start New Inspection</span>
+              <ArrowRight className="w-4 h-4 ml-1" />
             </button>
 
-            <div className="flex items-center gap-3">
-              <div className="flex-1 h-px bg-slate-700" />
-              <span className="text-[11px] text-slate-500 font-semibold">or use demo account</span>
-              <div className="flex-1 h-px bg-slate-700" />
-            </div>
+            <button
+              onClick={() => onNavigate('deposit_report')}
+              className="flex items-center gap-2 px-5 py-3.5 bg-[var(--rg-surface-raised)] hover:bg-[var(--rg-surface)] text-[var(--rg-ink)] border border-[var(--rg-line-strong)] hover:border-[var(--rg-teal-dim)] font-semibold rg-mono text-sm rounded-lg transition-all cursor-pointer"
+            >
+              <FileText className="w-4 h-4 text-[var(--rg-teal)]" />
+              <span>View Deposit Report</span>
+            </button>
 
-            {/* Demo Login Buttons */}
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => handleDemoLogin("tenant")}
-                disabled={isLoading !== null}
-                className="flex flex-col items-center gap-2 py-3 px-3 rounded-2xl bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-300 transition-all group disabled:opacity-60"
-              >
-                {isLoading === "tenant" ? (
-                  <div className="w-5 h-5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  <Camera className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                )}
-                <div className="text-center">
-                  <p className="text-[11px] font-black">Tenant Demo</p>
-                  <p className="text-[10px] text-blue-400/70">Property Scanner</p>
-                </div>
-              </button>
-
-              <button
-                onClick={() => handleDemoLogin("manager")}
-                disabled={isLoading !== null}
-                className="flex flex-col items-center gap-2 py-3 px-3 rounded-2xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 transition-all group disabled:opacity-60"
-              >
-                {isLoading === "manager" ? (
-                  <div className="w-5 h-5 border-2 border-purple-400 border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  <Brain className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                )}
-                <div className="text-center">
-                  <p className="text-[11px] font-black">Manager Demo</p>
-                  <p className="text-[10px] text-purple-400/70">Admin ML Churn</p>
-                </div>
-              </button>
-            </div>
-
-            <p className="text-center text-[10px] text-slate-500 pt-1">
-              Demo accounts require no setup. Google login requires OAuth credentials in .env.local
-            </p>
+            <button
+              onClick={() => onNavigate('history')}
+              className="flex items-center gap-1.5 px-4 py-3.5 text-xs rg-mono text-[var(--rg-ink-dim)] hover:text-[var(--rg-ink)] transition-colors cursor-pointer"
+            >
+              <span>View Inspection History</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
-      </div>
+
+        {/* ── 10-Second Visual Story Flow ── */}
+        <div className="mt-10 pt-8 border-t border-[var(--rg-line)]">
+          <p className="text-[11px] rg-mono font-bold uppercase tracking-widest text-[var(--rg-ink-faint)] mb-4">
+            HOW RENTGUARD WORKS IN 4 STEPS:
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {/* Step 1 */}
+            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[var(--rg-surface)]/80 border border-[var(--rg-line-strong)]">
+              <div className="w-9 h-9 rounded-lg bg-[rgba(75,156,147,0.15)] border border-[var(--rg-teal-dim)] flex items-center justify-center text-[var(--rg-teal)] shrink-0 font-bold rg-mono text-sm">
+                1
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-[var(--rg-ink)] uppercase tracking-wide">Move-In Capture</div>
+                <div className="text-[11px] text-[var(--rg-ink-dim)] truncate">Photo baseline recorded</div>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[var(--rg-surface)]/80 border border-[var(--rg-line-strong)]">
+              <div className="w-9 h-9 rounded-lg bg-[rgba(201,154,75,0.15)] border border-[var(--rg-brass-dim)] flex items-center justify-center text-[var(--rg-brass)] shrink-0 font-bold rg-mono text-sm">
+                2
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-[var(--rg-ink)] uppercase tracking-wide">Move-Out Capture</div>
+                <div className="text-[11px] text-[var(--rg-ink-dim)] truncate">End-of-lease photography</div>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[var(--rg-surface)]/80 border border-[var(--rg-line-strong)]">
+              <div className="w-9 h-9 rounded-lg bg-[rgba(193,85,61,0.15)] border border-[var(--rg-rust-dim)] flex items-center justify-center text-[var(--rg-rust)] shrink-0 font-bold rg-mono text-sm">
+                3
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-[var(--rg-ink)] uppercase tracking-wide">AI Delta Engine</div>
+                <div className="text-[11px] text-[var(--rg-ink-dim)] truncate">Filters wear vs damage</div>
+              </div>
+            </div>
+
+            {/* Step 4 */}
+            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[var(--rg-surface)]/80 border border-[var(--rg-teal-dim)] bg-[rgba(75,156,147,0.06)]">
+              <div className="w-9 h-9 rounded-lg bg-[var(--rg-teal)] text-[#0b0d0c] flex items-center justify-center shrink-0 font-bold rg-mono text-sm shadow-[0_0_10px_rgba(75,156,147,0.4)]">
+                4
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-[var(--rg-teal)] uppercase tracking-wide">Fair Deposit</div>
+                <div className="text-[11px] text-[var(--rg-ink-dim)] truncate">Legally defensible payout</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3 Benefit Cards ── */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Benefit 1 */}
+        <div className="rg-lift p-6 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-3">
+          <div className="w-10 h-10 rounded-xl bg-[rgba(75,156,147,0.15)] border border-[var(--rg-teal-dim)] flex items-center justify-center text-[var(--rg-teal)]">
+            <Camera className="w-5 h-5" />
+          </div>
+          <h2 className="text-lg font-bold text-[var(--rg-ink)] rg-display tracking-wide">
+            1. Visual Evidence Vault
+          </h2>
+          <p className="text-xs text-[var(--rg-ink-dim)] leading-relaxed">
+            Tamper-proof digital photographic log with split-screen comparison slider. Proves baseline conditions existed before keys were handed over.
+          </p>
+          <div className="pt-2 flex items-center gap-2 text-[11px] rg-mono text-[var(--rg-teal)]">
+            <CheckCircle2 className="w-3.5 h-3.5" /> High-precision image scrubber
+          </div>
+        </div>
+
+        {/* Benefit 2 */}
+        <div className="rg-lift p-6 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-3">
+          <div className="w-10 h-10 rounded-xl bg-[rgba(201,154,75,0.15)] border border-[var(--rg-brass-dim)] flex items-center justify-center text-[var(--rg-brass)]">
+            <Sparkles className="w-5 h-5" />
+          </div>
+          <h2 className="text-lg font-bold text-[var(--rg-ink)] rg-display tracking-wide">
+            2. AI Damage Detection
+          </h2>
+          <p className="text-xs text-[var(--rg-ink-dim)] leading-relaxed">
+            Computer vision cross-references tenancy statutes to distinguish between unavoidable aging (faded paint) and deductible tenant negligence (counter chips).
+          </p>
+          <div className="pt-2 flex items-center gap-2 text-[11px] rg-mono text-[var(--rg-brass)]">
+            <Scale className="w-3.5 h-3.5" /> 94% Model classification accuracy
+          </div>
+        </div>
+
+        {/* Benefit 3 */}
+        <div className="rg-lift p-6 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-3">
+          <div className="w-10 h-10 rounded-xl bg-[rgba(193,85,61,0.15)] border border-[var(--rg-rust-dim)] flex items-center justify-center text-[var(--rg-rust)]">
+            <Coins className="w-5 h-5" />
+          </div>
+          <h2 className="text-lg font-bold text-[var(--rg-ink)] rg-display tracking-wide">
+            3. Fair Deposit Settlement
+          </h2>
+          <p className="text-xs text-[var(--rg-ink-dim)] leading-relaxed">
+            Automated rupee repair valuation protects against inflated landlord deductions. Exports an itemized audit ledger ready for mediation or arbitration.
+          </p>
+          <div className="pt-2 flex items-center gap-2 text-[11px] rg-mono text-[var(--rg-rust)]">
+            <Coins className="w-3.5 h-3.5" /> Real-time INR liability sum
+          </div>
+        </div>
+      </section>
+
+      {/* ── Live Performance Metrics & Case Dossier Summary ── */}
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Metrics Counter Card */}
+        <div className="lg:col-span-2 p-6 sm:p-8 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-4 border-b border-[var(--rg-line)]">
+              <div>
+                <span className="rg-mono text-[10px] text-[var(--rg-ink-faint)] tracking-wider">PAN-INDIA LEDGER METRICS</span>
+                <h3 className="rg-display text-xl text-[var(--rg-ink)] mt-0.5">Platform Dispute Resolution</h3>
+              </div>
+              <span className="px-2.5 py-1 text-[10px] rg-mono font-bold uppercase rounded bg-[rgba(75,156,147,0.12)] text-[var(--rg-teal)] border border-[var(--rg-teal-dim)]">
+                LIVE AUDIT
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6">
+              <div>
+                <div className="rg-mono text-3xl font-black text-[var(--rg-brass)]">
+                  <CountUp to={2417000} prefix="₹" />
+                </div>
+                <p className="rg-mono text-[11px] text-[var(--rg-ink-dim)] mt-1">DISPUTES RESOLVED TO DATE</p>
+              </div>
+
+              <div>
+                <div className="rg-mono text-3xl font-black text-[var(--rg-teal)]">
+                  <CountUp to={1204} />
+                </div>
+                <p className="rg-mono text-[11px] text-[var(--rg-ink-dim)] mt-1">ROOM INSPECTIONS LOGGED</p>
+              </div>
+
+              <div>
+                <div className="rg-mono text-3xl font-black text-[var(--rg-ink)]">
+                  <CountUp to={94} suffix="%" />
+                </div>
+                <p className="rg-mono text-[11px] text-[var(--rg-ink-dim)] mt-1">AI VALUATION ACCURACY</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 pt-4 border-t border-[var(--rg-line)] flex items-center justify-between text-xs text-[var(--rg-ink-dim)]">
+            <span className="rg-mono text-[11px]">Governed by the Indian Model Tenancy Act &amp; RERA Standards</span>
+            <button
+              onClick={() => onNavigate('new_inspection')}
+              className="text-[var(--rg-brass)] hover:underline font-bold rg-mono flex items-center gap-1 cursor-pointer"
+            >
+              Start Inspection <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Current Active Case File Summary */}
+        <div className="p-6 rounded-2xl border border-[var(--rg-brass-dim)] bg-gradient-to-b from-[rgba(201,154,75,0.08)] to-[var(--rg-surface)] flex flex-col justify-between">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="px-2 py-0.5 text-[10px] rg-mono font-bold uppercase tracking-wider bg-[var(--rg-brass)] text-[#120d06] rounded-sm">
+                ACTIVE CASE FILE
+              </span>
+              <span className="rg-mono text-[10px] text-[var(--rg-ink-faint)]">#2026-0417</span>
+            </div>
+
+            <div>
+              <h4 className="text-base font-bold text-[var(--rg-ink)]">Tower 4 · Flat 1204</h4>
+              <p className="text-xs text-[var(--rg-ink-dim)] rg-mono">DLF CyberCity, Sector 24, Gurugram</p>
+            </div>
+
+            <div className="p-3 rounded-lg bg-[var(--rg-surface-raised)] border border-[var(--rg-line)] space-y-2 text-xs rg-mono">
+              <div className="flex justify-between">
+                <span className="text-[var(--rg-ink-faint)]">Security Deposit:</span>
+                <span className="font-bold text-[var(--rg-ink)]">₹50,000</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-[var(--rg-ink-faint)]">Assessed Deductions:</span>
+                <span className="font-bold text-[var(--rg-rust)]">₹4,500</span>
+              </div>
+              <div className="flex justify-between pt-1 border-t border-[var(--rg-line)] text-[var(--rg-teal)]">
+                <span className="font-bold">Refundable Balance:</span>
+                <span className="font-bold">₹45,500</span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={() => onNavigate('deposit_report')}
+            className="mt-6 w-full py-2.5 bg-[var(--rg-surface-raised)] hover:bg-[var(--rg-surface)] text-[var(--rg-brass)] border border-[var(--rg-brass-dim)] rounded-lg text-xs font-bold rg-mono flex items-center justify-center gap-2 transition-all cursor-pointer"
+          >
+            <span>Open Case Dossier</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </section>
     </div>
   );
 }
+
+export default LandingHero;
