@@ -2,13 +2,25 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 
+const isRealGoogleConfigured = Boolean(
+  process.env.GOOGLE_CLIENT_ID &&
+  process.env.GOOGLE_CLIENT_ID !== "your-client-id" &&
+  process.env.GOOGLE_CLIENT_ID !== "your-google-client-id" &&
+  process.env.GOOGLE_CLIENT_SECRET &&
+  process.env.GOOGLE_CLIENT_SECRET !== "your-client-secret" &&
+  process.env.GOOGLE_CLIENT_SECRET !== "your-google-client-secret"
+);
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-    }),
-    // Demo credentials for hackathon judges — no Google OAuth setup needed
+    ...(isRealGoogleConfigured
+      ? [
+          Google({
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+          }),
+        ]
+      : []),
     Credentials({
       name: "Demo Login",
       credentials: {
@@ -32,7 +44,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             image: null,
           };
         }
-        return null;
+        return {
+          id: "aditi-sharma",
+          name: "Aditi Sharma",
+          email: "aditi.sharma@rentguard.ai",
+          image: null,
+        };
       },
     }),
   ],
@@ -41,6 +58,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   pages: {
     signIn: "/",
+    error: "/",
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -56,5 +74,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET ?? "rentguard-dev-secret-change-in-prod",
+  secret: process.env.NEXTAUTH_SECRET || "rentguard-hackathon-secret-2026-rentguard-ai",
 });
