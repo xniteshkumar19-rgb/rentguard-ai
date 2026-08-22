@@ -1,0 +1,42 @@
+import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
+
+interface BadgeProps {
+  color: "green" | "red" | "blue" | "emerald" | "amber" | "gray";
+  children: ReactNode;
+  size?: "sm" | "md" | "lg";
+  className?: string;
+}
+
+const colorMap: Record<BadgeProps["color"], string> = {
+  green:
+    "bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700",
+  red: "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-700",
+  blue: "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700",
+  emerald:
+    "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700",
+  amber:
+    "bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-700",
+  gray: "bg-gray-100 text-gray-700 border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600",
+};
+
+const sizeMap: Record<NonNullable<BadgeProps["size"]>, string> = {
+  sm: "text-xs px-2 py-0.5",
+  md: "text-sm px-2.5 py-1",
+  lg: "text-base px-3 py-1.5",
+};
+
+export function Badge({ color, children, size = "md", className }: BadgeProps) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full border font-semibold",
+        colorMap[color],
+        sizeMap[size],
+        className
+      )}
+    >
+      {children}
+    </span>
+  );
+}
