@@ -186,6 +186,45 @@ rentguard-ai/
 
 ---
 
+## 🌟 Mode 4 — Hotel & PG Dual-Source Review System 🏨⭐
+
+A dedicated community trust and rating ledger for co-living PGs and short-term stay hotels.
+
+### 1. Dual-Source Provenance & Separation
+- **Google Reviews (Official API)**: Displays authentic reviews from official Google Business Profiles. Strictly read-only, clearly attributed, and never scraped.
+- **RentGuard First-Party Reviews**: Verified direct reviews with 1–5 star ratings, written impressions, stay dates, and photo uploads.
+- **No Rating Falsification**: Google and RentGuard ratings are kept strictly distinct in separate metric cards (e.g. `Google: 4.4★ / 238 reviews` vs `RentGuard: 4.7★ / 31 reviews`) and are never blended into a misleading average.
+
+### 2. Verified Stay Badging
+- Reviews submitted by users with confirmed inspection or tenancy records automatically receive a **"Verified Guest"** badge with green checkmark.
+- Unverified community submissions remain clearly distinguished.
+
+### 3. Review Reporting & Admin Moderation
+- **Report Review**: Users can flag reviews for spam, offensive content, fake submissions, or irrelevance.
+- **Admin Moderation**: Property managers can review reported queue items, approve/hide reviews, and delete violations. Google reviews remain read-only.
+
+### 4. New Review API Endpoints
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/reviews` | `GET` | Fetch reviews filtered by property, source (`ALL`/`GOOGLE`/`RENTGUARD`), type (`HOTEL`/`PG`), and sort order. |
+| `/api/reviews` | `POST` | Submit a new RentGuard first-party review. |
+| `/api/reviews/report` | `POST` | Report a RentGuard review for moderation review. |
+| `/api/reviews/moderate` | `PATCH` | Admin endpoint to approve, hide, or delete reported RentGuard reviews. |
+| `/api/reviews/google` | `GET` | Server-side proxy querying Google Places API with fallback seed archive. |
+
+### 5. Google Places API Configuration
+
+To enable live Google Places reviews:
+1. Obtain an API key from [Google Cloud Console](https://console.cloud.google.com/) with **Places API** enabled.
+2. Add the key to `.env.local`:
+   ```env
+   GOOGLE_PLACES_API_KEY=your-google-places-api-key-here
+   ```
+3. When the key is unconfigured, RentGuard automatically falls back to curated sample data and displays an informative setup guide.
+
+---
+
 ## 📄 License
 
 MIT — free for personal and commercial use.

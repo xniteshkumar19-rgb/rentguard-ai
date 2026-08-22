@@ -17,6 +17,7 @@ import {
   ChevronDown,
   Building2,
   CheckCircle2,
+  Star,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -26,6 +27,7 @@ export type NavTab =
   | 'history'
   | 'deposit_report'
   | 'listing'
+  | 'reviews'
   | 'admin';
 
 interface NavigationProps {
@@ -44,6 +46,7 @@ const NAV_ITEMS: { id: NavTab; label: string; icon: React.ElementType; badge?: s
   { id: 'history', label: 'Inspection History', icon: History },
   { id: 'deposit_report', label: 'Deposit Report', icon: FileCheck2, badge: '₹45.5k' },
   { id: 'listing', label: 'Property Listings', icon: Home },
+  { id: 'reviews', label: 'Hotel & PG Reviews', icon: Star, badge: 'New' },
   { id: 'admin', label: 'Admin & ML Churn', icon: BarChart3, badge: 'ML-15' },
 ];
 

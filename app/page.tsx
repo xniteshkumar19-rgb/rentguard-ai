@@ -10,6 +10,7 @@ import { InspectionWorkflow } from '@/components/InspectionWorkflow';
 import { InspectionHistoryView } from '@/components/InspectionHistoryView';
 import { DepositReportView } from '@/components/DepositReportView';
 import { ListingGeneratorView } from '@/components/ListingGeneratorView';
+import { ReviewsView } from '@/components/ReviewsView';
 import { AdminChurnDashboard } from '@/components/AdminChurnDashboard';
 import { AuthGate } from '@/components/AuthGate';
 import { ShieldCheck, ArrowUpRight, ExternalLink } from 'lucide-react';
@@ -74,6 +75,13 @@ export default function RentGuardMasterPage() {
           {activeTab === 'deposit_report' && <DepositReportView />}
 
           {activeTab === 'listing' && <ListingGeneratorView />}
+
+          {activeTab === 'reviews' && (
+            <ReviewsView
+              userPersona={persona}
+              currentUser={{ name: userName, email: userEmail }}
+            />
+          )}
 
           {activeTab === 'admin' && (
             <div className="space-y-6 animate-in fade-in duration-300">

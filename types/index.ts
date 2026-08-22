@@ -161,3 +161,87 @@ export interface FeatureImportanceItem {
   category: string;
   description: string;
 }
+
+// ----- Hotel & PG Review System ------------------------------
+
+export type PropertyType = "HOTEL" | "PG";
+
+export type ReviewSource = "GOOGLE" | "RENTGUARD";
+
+export type ReviewStatus = "approved" | "pending" | "hidden" | "flagged";
+
+export interface Review {
+  id: string;
+  propertyId: string;
+  propertyName: string;
+  propertyType: PropertyType;
+  source: ReviewSource;
+  userId?: string;
+  reviewerName: string;
+  reviewerImage?: string;
+  rating: number; // 1 - 5
+  reviewText: string;
+  photos?: string[];
+  stayDate?: string;
+  roomType?: string;
+  verifiedStay: boolean;
+  status: ReviewStatus;
+  reportCount: number;
+  reportReasons?: string[];
+  createdAt: string;
+  updatedAt?: string;
+  externalReviewId?: string;
+  googlePlaceId?: string;
+  googleMapsUrl?: string;
+}
+
+export interface ReviewProperty {
+  id: string;
+  name: string;
+  type: PropertyType;
+  location: string;
+  address: string;
+  image: string;
+  description: string;
+  pricePerMonthOrNight: string;
+  googlePlaceId?: string;
+  googleMapsUrl?: string;
+  amenities: string[];
+}
+
+export interface PropertyReviewSummary {
+  property: ReviewProperty;
+  rentGuardRating: number;
+  rentGuardReviewCount: number;
+  googleRating?: number;
+  googleReviewCount?: number;
+  ratingDistribution: {
+    5: number;
+    4: number;
+    3: number;
+    2: number;
+    1: number;
+  };
+  verifiedReviewCount: number;
+}
+
+export interface CreateReviewInput {
+  propertyId: string;
+  rating: number;
+  reviewText: string;
+  reviewerName?: string;
+  roomType?: string;
+  stayDate?: string;
+  photos?: string[];
+}
+
+export interface ReportReviewInput {
+  reviewId: string;
+  reason: "spam" | "offensive" | "fake" | "irrelevant" | "other";
+  details?: string;
+}
+
+export interface ModerateReviewInput {
+  reviewId: string;
+  action: "approve" | "hide" | "delete" | "unflag";
+}
