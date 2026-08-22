@@ -2,11 +2,11 @@
 // RentGuard AI — Shared TypeScript Interfaces
 // ============================================================
 
-export type AppMode = "move_out" | "listing" | "delta" | "admin";
+export type AppMode = "move_out" | "listing" | "delta" | "inspection" | "admin";
 
 export type UserPersona = "tenant" | "manager";
 
-// ----- Move-Out Audit ----------------------------------------
+// ----- Move-Out Audit (Single Image) -------------------------
 
 export interface MoveOutResult {
   defect_type: string;
@@ -49,6 +49,43 @@ export interface DamageDeltaResult {
   confidence: number; // 0–100
 }
 
+// ----- Comprehensive Structured Inspection Result -----------
+
+export type FindingClassification =
+  | "normal_wear"
+  | "minor_damage"
+  | "moderate_damage"
+  | "significant_damage"
+  | "Normal Wear & Tear"
+  | "Tenant Damage";
+
+export interface StructuredFinding {
+  finding: string;
+  classification: FindingClassification;
+  confidence: number; // 0 - 100
+  description: string;
+  evidence: string;
+  repair_cost_low: number;
+  repair_cost_high: number;
+  deposit_impact: number;
+}
+
+export interface StructuredInspectionResult {
+  inspection_id: string;
+  room: string;
+  overall_condition: "Improved" | "Same" | "Worsened" | "Excellent" | "Good" | "Minor Wear" | "Damages Present";
+  findings: StructuredFinding[];
+  total_repair_cost_low: number;
+  total_repair_cost_high: number;
+  recommended_deposit_deduction: number;
+  estimated_refund: number;
+  reasoning: string;
+  security_deposit?: number;
+  timestamp?: string;
+  property?: string;
+  tenant?: string;
+}
+
 // ----- Audit Log ---------------------------------------------
 
 export interface AuditLogItem {
@@ -61,20 +98,33 @@ export interface AuditLogItem {
 // ----- API Payload / Response --------------------------------
 
 export interface InspectRequest {
-  imageBase64: string;
-  mode: "move_out" | "listing";
+  imageBase64?: string;
+  beforeImageBase64?: string;
+  afterImageBase64?: string;
+  moveInImageBase64?: string;
+  moveOutImageBase64?: string;
+  room?: string;
+  roomName?: string;
+  securityDeposit?: number;
+  security_deposit?: number;
+  property?: string;
+  tenant?: string;
+  mode?: AppMode;
 }
 
 export interface DeltaInspectRequest {
   beforeImageBase64: string;
   afterImageBase64: string;
-  mode: "delta";
+  mode: "delta" | "inspection";
+  room?: string;
+  securityDeposit?: number;
 }
 
 export type InspectResponse =
   | { data: MoveOutResult; mode: "move_out" }
   | { data: ListingResult; mode: "listing" }
   | { data: DamageDeltaResult; mode: "delta" }
+  | { data: StructuredInspectionResult; mode: "inspection" }
   | { error: string };
 
 // ----- Admin ML Churn Dashboard ------------------------------
