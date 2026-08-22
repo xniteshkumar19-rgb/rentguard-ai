@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { ShieldCheck, CircleCheckBig } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import AuthGate from '@/components/AuthGate';
 import BeforeAfterInspector from '@/components/BeforeAfterInspector';
 import RoomLedger from '@/components/RoomLedger';
@@ -35,14 +36,16 @@ function CountUp({ to, prefix = '', suffix = '', duration = 1400 }: { to: number
 
 export default function DashboardPage() {
   const [authenticated, setAuthenticated] = useState(false);
+  const { data: session } = useSession();
+  const hasAccess = authenticated || Boolean(session?.user);
 
   return (
     <main className="min-h-screen relative">
       <div className="rg-vignette" />
 
-      {!authenticated && <AuthGate onAuthenticated={() => setAuthenticated(true)} />}
+      {!hasAccess && <AuthGate onAuthenticated={() => setAuthenticated(true)} />}
 
-      <div className={authenticated ? 'relative z-[1]' : 'relative z-[1] pointer-events-none blur-sm select-none'}>
+      <div className={hasAccess ? 'relative z-[1]' : 'relative z-[1] pointer-events-none blur-sm select-none'}>
         {/* Top bar */}
         <header className="border-b border-[var(--rg-line-strong)] px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
