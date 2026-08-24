@@ -79,7 +79,7 @@ export function DepositReportView() {
       {/* ── Security Deposit Financial Breakdown Cards ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Original Deposit */}
-        <div className="p-5 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-2">
+        <div className="p-5 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-2 rg-glass-2">
           <span className="text-[10px] rg-mono font-bold uppercase text-[var(--rg-ink-faint)]">
             ORIGINAL SECURITY DEPOSIT
           </span>
@@ -90,7 +90,7 @@ export function DepositReportView() {
         </div>
 
         {/* Card 2: Estimated Damage Cost */}
-        <div className="p-5 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-2">
+        <div className="p-5 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-2 rg-glass-2">
           <span className="text-[10px] rg-mono font-bold uppercase text-[var(--rg-brass)]">
             ESTIMATED DAMAGE COST
           </span>
@@ -101,7 +101,7 @@ export function DepositReportView() {
         </div>
 
         {/* Card 3: Recommended Deduction */}
-        <div className="p-5 rounded-2xl border border-[var(--rg-rust-dim)] bg-[rgba(193,85,61,0.06)] space-y-2">
+        <div className="p-5 rounded-2xl border border-[var(--rg-rust-dim)] bg-[rgba(193,85,61,0.06)] space-y-2 rg-glass-2">
           <span className="text-[10px] rg-mono font-bold uppercase text-[var(--rg-rust)]">
             RECOMMENDED DEDUCTION
           </span>
@@ -112,7 +112,7 @@ export function DepositReportView() {
         </div>
 
         {/* Card 4: Potential Refund */}
-        <div className="p-5 rounded-2xl border-2 border-[var(--rg-teal)] bg-gradient-to-b from-[rgba(75,156,147,0.18)] to-[var(--rg-surface)] space-y-2 shadow-[0_0_25px_rgba(75,156,147,0.2)]">
+        <div className="p-5 rounded-2xl border-2 border-[var(--rg-teal)] bg-gradient-to-b from-[rgba(75,156,147,0.18)] to-[var(--rg-surface)] space-y-2 shadow-[0_0_25px_rgba(75,156,147,0.2)] rg-glass-1" data-glass-tint="teal">
           <div className="flex items-center justify-between">
             <span className="text-[10px] rg-mono font-bold uppercase text-[var(--rg-teal)]">
               POTENTIAL REFUND TO TENANT
@@ -127,7 +127,7 @@ export function DepositReportView() {
       </div>
 
       {/* ── Expandable "Why?" AI Evidence Breakdown ── */}
-      <div className="rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] overflow-hidden shadow-xl">
+      <div className="rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] overflow-hidden shadow-xl rg-glass-2">
         <button
           onClick={() => setWhyExpanded((v) => !v)}
           className="w-full p-5 flex items-center justify-between bg-[var(--rg-surface-raised)] hover:bg-[var(--rg-surface)] transition-colors cursor-pointer text-left"

@@ -54,14 +54,14 @@ export function LandingHero({ onNavigate }: LandingHeroProps) {
   return (
     <div className="space-y-12 py-6">
       {/* ── Top Hero Section ── */}
-      <section className="relative overflow-hidden rounded-2xl border border-[var(--rg-line-strong)] bg-gradient-to-b from-[var(--rg-surface-raised)]/90 via-[var(--rg-surface)]/80 to-[var(--rg-bg)] p-6 sm:p-10 lg:p-12 shadow-2xl backdrop-blur-xl">
+      <section className="relative overflow-hidden rounded-2xl border border-[var(--rg-line-strong)] bg-gradient-to-b from-[var(--rg-surface-raised)]/90 via-[var(--rg-surface)]/80 to-[var(--rg-bg)] p-6 sm:p-10 lg:p-12 shadow-2xl backdrop-blur-xl rg-glass-1">
         {/* Subtle decorative glow */}
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-[radial-gradient(circle_at_center,rgba(201,154,75,0.08)_0%,transparent_70%)] pointer-events-none" />
         <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-[radial-gradient(circle_at_center,rgba(75,156,147,0.06)_0%,transparent_70%)] pointer-events-none" />
 
         <div className="relative z-10 max-w-4xl space-y-6">
           {/* Tagline kicker */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 text-xs rg-mono font-bold uppercase tracking-wider rounded-full border border-[var(--rg-brass-dim)] bg-[rgba(201,154,75,0.1)] text-[var(--rg-brass)] shadow-[0_0_12px_rgba(201,154,75,0.15)]">
+          <div className="inline-flex items-center gap-2 px-3 py-1 text-xs rg-mono font-bold uppercase tracking-wider rounded-full border border-[var(--rg-brass-dim)] bg-[rgba(201,154,75,0.1)] text-[var(--rg-brass)] shadow-[0_0_12px_rgba(201,154,75,0.15)] rg-glass-3">
             <Sparkles className="w-3.5 h-3.5 text-[var(--rg-brass)] animate-pulse" />
             AI-POWERED ROOM HANDOVER &amp; SECURITY DEPOSIT PROTECTION
           </div>
@@ -126,7 +126,7 @@ export function LandingHero({ onNavigate }: LandingHeroProps) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {/* Step 1 */}
-            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[var(--rg-surface)]/80 border border-[var(--rg-line-strong)]">
+            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[var(--rg-surface)]/80 border border-[var(--rg-line-strong)] rg-glass-2">
               <div className="w-9 h-9 rounded-lg bg-[rgba(75,156,147,0.15)] border border-[var(--rg-teal-dim)] flex items-center justify-center text-[var(--rg-teal)] shrink-0 font-bold rg-mono text-sm">
                 1
               </div>
@@ -137,7 +137,7 @@ export function LandingHero({ onNavigate }: LandingHeroProps) {
             </div>
 
             {/* Step 2 */}
-            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[var(--rg-surface)]/80 border border-[var(--rg-line-strong)]">
+            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[var(--rg-surface)]/80 border border-[var(--rg-line-strong)] rg-glass-2">
               <div className="w-9 h-9 rounded-lg bg-[rgba(201,154,75,0.15)] border border-[var(--rg-brass-dim)] flex items-center justify-center text-[var(--rg-brass)] shrink-0 font-bold rg-mono text-sm">
                 2
               </div>
@@ -148,7 +148,7 @@ export function LandingHero({ onNavigate }: LandingHeroProps) {
             </div>
 
             {/* Step 3 */}
-            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[var(--rg-surface)]/80 border border-[var(--rg-line-strong)]">
+            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[var(--rg-surface)]/80 border border-[var(--rg-line-strong)] rg-glass-2">
               <div className="w-9 h-9 rounded-lg bg-[rgba(193,85,61,0.15)] border border-[var(--rg-rust-dim)] flex items-center justify-center text-[var(--rg-rust)] shrink-0 font-bold rg-mono text-sm">
                 3
               </div>
@@ -159,7 +159,7 @@ export function LandingHero({ onNavigate }: LandingHeroProps) {
             </div>
 
             {/* Step 4 */}
-            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[var(--rg-surface)]/80 border border-[var(--rg-teal-dim)] bg-[rgba(75,156,147,0.06)]">
+            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[var(--rg-surface)]/80 border border-[var(--rg-teal-dim)] bg-[rgba(75,156,147,0.06)] rg-glass-2">
               <div className="w-9 h-9 rounded-lg bg-[var(--rg-teal)] text-[#0b0d0c] flex items-center justify-center shrink-0 font-bold rg-mono text-sm shadow-[0_0_10px_rgba(75,156,147,0.4)]">
                 4
               </div>
@@ -175,7 +175,7 @@ export function LandingHero({ onNavigate }: LandingHeroProps) {
       {/* ── 3 Benefit Cards ── */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Benefit 1 */}
-        <div className="rg-lift p-6 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-3">
+        <div className="rg-lift p-6 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-3 rg-glass-2 rg-glass-hover">
           <div className="w-10 h-10 rounded-xl bg-[rgba(75,156,147,0.15)] border border-[var(--rg-teal-dim)] flex items-center justify-center text-[var(--rg-teal)]">
             <Camera className="w-5 h-5" />
           </div>
@@ -191,7 +191,7 @@ export function LandingHero({ onNavigate }: LandingHeroProps) {
         </div>
 
         {/* Benefit 2 */}
-        <div className="rg-lift p-6 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-3">
+        <div className="rg-lift p-6 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-3 rg-glass-2 rg-glass-hover">
           <div className="w-10 h-10 rounded-xl bg-[rgba(201,154,75,0.15)] border border-[var(--rg-brass-dim)] flex items-center justify-center text-[var(--rg-brass)]">
             <Sparkles className="w-5 h-5" />
           </div>
@@ -207,7 +207,7 @@ export function LandingHero({ onNavigate }: LandingHeroProps) {
         </div>
 
         {/* Benefit 3 */}
-        <div className="rg-lift p-6 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-3">
+        <div className="rg-lift p-6 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-3 rg-glass-2 rg-glass-hover">
           <div className="w-10 h-10 rounded-xl bg-[rgba(193,85,61,0.15)] border border-[var(--rg-rust-dim)] flex items-center justify-center text-[var(--rg-rust)]">
             <Coins className="w-5 h-5" />
           </div>

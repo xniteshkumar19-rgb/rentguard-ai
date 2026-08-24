@@ -80,7 +80,7 @@ export function ListingGeneratorView() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left: Photo Upload & Preview */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="p-5 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-4">
+          <div className="p-5 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-4 rg-glass-2">
             <h3 className="text-sm font-bold text-[var(--rg-ink)] rg-display uppercase">
               Upload Clean Room Photography
             </h3>
@@ -103,7 +103,7 @@ export function ListingGeneratorView() {
 
         {/* Right: AI Extracted Listing Result */}
         <div className="lg:col-span-7 space-y-5">
-          <div className="p-6 sm:p-8 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-6 shadow-2xl">
+          <div className="p-6 sm:p-8 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-6 shadow-2xl rg-glass-1">
             <div className="flex items-center justify-between pb-4 border-b border-[var(--rg-line)]">
               <div>
                 <span className="text-[10px] rg-mono font-bold text-[var(--rg-teal)] uppercase">

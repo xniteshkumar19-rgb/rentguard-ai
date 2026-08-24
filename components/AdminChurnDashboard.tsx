@@ -201,7 +201,8 @@ export function AdminChurnDashboard() {
         {MOCK_CHURN_METRICS.map((metric) => (
           <div
             key={metric.id}
-            className="p-5 rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-slate-800 hover:border-slate-700 shadow-xl flex flex-col justify-between space-y-3 transition-all group"
+            className="p-5 rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-slate-800 hover:border-slate-700 shadow-xl flex flex-col justify-between space-y-3 transition-all group rg-glass-1 rg-glass-hover"
+            data-glass-tint="rust"
           >
             <div>
               <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
@@ -237,7 +238,7 @@ export function AdminChurnDashboard() {
       </div>
 
       {/* ── ML Telemetry & Feature Importance Panel ───────────── */}
-      <div className="p-6 rounded-3xl bg-slate-900/80 backdrop-blur-xl border border-slate-800 shadow-xl space-y-4">
+      <div className="p-6 rounded-3xl bg-slate-900/80 backdrop-blur-xl border border-slate-800 shadow-xl space-y-4 rg-glass-2">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">

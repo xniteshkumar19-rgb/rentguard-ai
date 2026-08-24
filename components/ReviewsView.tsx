@@ -227,7 +227,7 @@ export function ReviewsView({
       </div>
 
       {/* ── Selected Property Banner & Dual Rating Cards ── */}
-      <div className="p-6 sm:p-8 rounded-2xl border border-[var(--rg-line-strong)] bg-gradient-to-b from-[var(--rg-surface-raised)] to-[var(--rg-surface)] shadow-2xl space-y-6">
+      <div className="p-6 sm:p-8 rounded-2xl border border-[var(--rg-line-strong)] bg-gradient-to-b from-[var(--rg-surface-raised)] to-[var(--rg-surface)] shadow-2xl space-y-6 rg-glass-1">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[var(--rg-line)]">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
@@ -259,7 +259,7 @@ export function ReviewsView({
         {/* ── Separate Provenance Rating Cards (NEVER BLENDED) ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Card 1: RentGuard First-Party Rating */}
-          <div className="p-6 rounded-2xl border-2 border-[var(--rg-brass-dim)] bg-[rgba(201,154,75,0.04)] space-y-4">
+          <div className="p-6 rounded-2xl border-2 border-[var(--rg-brass-dim)] bg-[rgba(201,154,75,0.04)] space-y-4 rg-glass-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg bg-[rgba(201,154,75,0.15)] text-[var(--rg-brass)] flex items-center justify-center">
@@ -311,7 +311,7 @@ export function ReviewsView({
           </div>
 
           {/* Card 2: Google Places Rating */}
-          <div className="p-6 rounded-2xl border-2 border-blue-500/30 bg-[rgba(59,130,246,0.04)] space-y-4">
+          <div className="p-6 rounded-2xl border-2 border-blue-500/30 bg-[rgba(59,130,246,0.04)] space-y-4 rg-glass-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-black text-sm">
@@ -355,7 +355,7 @@ export function ReviewsView({
       </div>
 
       {/* ── Filters & Search Toolbar ── */}
-      <div className="p-4 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] flex flex-wrap items-center justify-between gap-4">
+      <div className="p-4 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] flex flex-wrap items-center justify-between gap-4 rg-glass-3">
         {/* Source Filter Tabs */}
         <div className="flex items-center gap-1 p-1 bg-[var(--rg-surface-raised)] border border-[var(--rg-line)] rounded-xl text-xs rg-mono">
           <button
@@ -449,7 +449,7 @@ export function ReviewsView({
               <div
                 key={review.id}
                 className={cn(
-                  'p-6 rounded-2xl border bg-[var(--rg-surface)] space-y-4 shadow-xl transition-all',
+                  'p-6 rounded-2xl border bg-[var(--rg-surface)] space-y-4 shadow-xl transition-all rg-glass-2 rg-glass-hover',
                   isGoogle
                     ? 'border-blue-500/20 hover:border-blue-500/40'
                     : 'border-[var(--rg-line-strong)] hover:border-[var(--rg-brass-dim)]'

@@ -363,7 +363,7 @@ export function InspectionWorkflow() {
         <div className="space-y-8 animate-in fade-in duration-300">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left: Upload / Capture New Baseline Card */}
-            <form onSubmit={handleAddRoom} className="p-6 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-4">
+            <form onSubmit={handleAddRoom} className="p-6 rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] space-y-4 rg-glass-2">
               <div className="flex items-center justify-between pb-3 border-b border-[var(--rg-line)]">
                 <h3 className="text-base font-bold text-[var(--rg-ink)] rg-display">
                   + Add Room Baseline
@@ -465,7 +465,7 @@ export function InspectionWorkflow() {
                     key={room.id}
                     onClick={() => setSelectedRoomId(room.id)}
                     className={cn(
-                      'rg-tag rg-lift p-4 rounded-xl border bg-[var(--rg-surface)] space-y-3 cursor-pointer transition-all',
+                      'rg-tag rg-lift p-4 rounded-xl border bg-[var(--rg-surface)] space-y-3 cursor-pointer transition-all rg-glass-2 rg-glass-hover',
                       room.id === selectedRoomId
                         ? 'border-[var(--rg-brass)] shadow-[0_0_15px_rgba(201,154,75,0.15)]'
                         : 'border-[var(--rg-line-strong)] hover:border-[var(--rg-brass-dim)]'
@@ -502,7 +502,7 @@ export function InspectionWorkflow() {
                 ))}
               </div>
 
-              <div className="p-4 rounded-xl border border-[var(--rg-brass-dim)] bg-[rgba(201,154,75,0.06)] flex items-center justify-between">
+              <div className="p-4 rounded-xl border border-[var(--rg-brass-dim)] bg-[rgba(201,154,75,0.06)] flex items-center justify-between rg-glass-3">
                 <div>
                   <div className="text-xs font-bold text-[var(--rg-ink)] uppercase rg-mono">Ready for move-out comparison?</div>
                   <div className="text-[11px] text-[var(--rg-ink-dim)]">Upload move-out photos to reveal baseline delta.</div>
@@ -526,7 +526,7 @@ export function InspectionWorkflow() {
       {step === 2 && (
         <div className="space-y-8 animate-in fade-in duration-300">
           {/* Active room comparison banner */}
-          <div className="p-4 rounded-xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="p-4 rounded-xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 rg-glass-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-[rgba(201,154,75,0.15)] border border-[var(--rg-brass-dim)] flex items-center justify-center text-[var(--rg-brass)] font-bold text-sm rg-mono">
                 {currentRoom.id.slice(-3)}
@@ -656,7 +656,7 @@ export function InspectionWorkflow() {
         <div className="space-y-8 animate-in fade-in duration-300">
           {isAnalyzing ? (
             /* Analyzing Loading State */
-            <div className="py-16 px-6 text-center space-y-6 rounded-2xl border border-[var(--rg-brass-dim)] bg-[var(--rg-surface)] shadow-2xl">
+            <div className="py-16 px-6 text-center space-y-6 rounded-2xl border border-[var(--rg-brass-dim)] bg-[var(--rg-surface)] shadow-2xl rg-glass-1">
               <div className="relative w-16 h-16 mx-auto flex items-center justify-center">
                 <div className="absolute inset-0 rounded-full border-2 border-[var(--rg-brass)] border-t-transparent animate-spin" />
                 <Sparkles className="w-6 h-6 text-[var(--rg-brass)] animate-pulse" />
@@ -674,7 +674,7 @@ export function InspectionWorkflow() {
             /* AI Results View */
             <div className="space-y-8">
               {/* Summary Banner */}
-              <div className="p-5 rounded-2xl border border-[var(--rg-line-strong)] bg-gradient-to-r from-[var(--rg-surface-raised)] to-[var(--rg-surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="p-5 rounded-2xl border border-[var(--rg-line-strong)] bg-gradient-to-r from-[var(--rg-surface-raised)] to-[var(--rg-surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 rg-glass-2">
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs rg-mono font-bold uppercase text-[var(--rg-teal)] bg-[rgba(75,156,147,0.12)] px-2 py-0.5 rounded border border-[var(--rg-teal-dim)]">
@@ -705,7 +705,7 @@ export function InspectionWorkflow() {
 
               {/* Main AI Result Card */}
               {currentRoom.aiFinding ? (
-                <div className="rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] overflow-hidden shadow-2xl">
+                <div className="rounded-2xl border border-[var(--rg-line-strong)] bg-[var(--rg-surface)] overflow-hidden shadow-2xl rg-glass-1">
                   {/* Card Header with Classification */}
                   <div className="p-6 border-b border-[var(--rg-line)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[var(--rg-surface-raised)]">
                     <div>
