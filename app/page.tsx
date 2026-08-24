@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import {
   Navigation,
   NavTab,
@@ -13,8 +14,14 @@ import { ListingGeneratorView } from '@/components/ListingGeneratorView';
 import { ReviewsView } from '@/components/ReviewsView';
 import { AdminChurnDashboard } from '@/components/AdminChurnDashboard';
 import { AuthGate } from '@/components/AuthGate';
-import { ShieldCheck, ArrowUpRight, ExternalLink } from 'lucide-react';
+import { ShieldCheck, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+// Lazy-loaded — never blocks initial page render, safe for SSR
+const SpatialBackground = dynamic(
+  () => import('@/components/SpatialBackground').then((m) => ({ default: m.SpatialBackground })),
+  { ssr: false }
+);
 
 export default function RentGuardMasterPage() {
   const [activeTab, setActiveTab] = useState<NavTab>('dashboard');
@@ -35,6 +42,9 @@ export default function RentGuardMasterPage() {
 
   return (
     <div className="min-h-screen bg-[var(--rg-bg)] text-[var(--rg-ink)] relative selection:bg-[var(--rg-brass)] selection:text-black flex flex-col justify-between">
+      {/* ── 3D Spatial Atmospheric Layer ── */}
+      <SpatialBackground variant={activeTab} />
+
       {/* ── Ambient Vignette Background ── */}
       <div className="rg-vignette" />
 
